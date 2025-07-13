@@ -89,6 +89,187 @@ const destinations = [
       pdf: "/assets/pdf/Spain-Portugal-Italy 13 Night -31May-13Jun.pdf",
       description: "Spain-Portugal-Italy 13 Night -31May-13Jun",
     },
+    {
+    title: " Malaysia & Thailand",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/06 Days-Malaysia & Thailand.pdf",
+    description: "06 Days - Malaysia & Thailand"
+  },
+  {
+    title: " Singapore Malaysia Thailand",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/08 Days Singapore-Malaysia-Thailand.pdf",
+    description: "08 Days - Singapore Malaysia Thailand"
+  },
+  {
+    title: " Macau & Hong Kong",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/07 Days-Macau & HongKong.pdf",
+    description: "07 Days - Macau & Hong Kong"
+  },
+  {
+    title: " Thailand",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/07 Days-Thailand.pdf",
+    description: "07 Days - Thailand"
+  },
+  {
+    title: "Iceland & Finland",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/08 Days Iceland & Finland.pdf",
+    description: "08 Days - Iceland & Finland"
+  },
+  {
+    title: "Swiss with Paris",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/08 Days Swiss with Paris.pdf",
+    description: "08 Days - Swiss with Paris"
+  },
+  {
+    title: "Iceland",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/08 Days-Iceland.pdf",
+    description: "08 Days - Iceland"
+  },
+  {
+    title: "Finland",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/08 Days-Finland.pdf",
+    description: "08 Days - Finland"
+  },
+  {
+    title: " Switzerland & France",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/08 Days-Switzerland & France.pdf",
+    description: "08 Days - Switzerland & France"
+  },
+  {
+    title: " Singapore with Cruise",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/08 Days-Singapore with Cruise.pdf",
+    description: "08 Days - Singapore with Cruise"
+  },
+  {
+    title: " Eastern Europe: Czech, Austria, Slovakia, Hungary",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/09 Days Eastern Europe- Czech Republic-Austria-Slovakia-Hungary.pdf",
+    description: "09 Days - Eastern Europe: Czech, Austria, Slovakia, Hungary"
+  },
+  {
+    title: " Indonesia",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/09 Days- Indonesia.pdf",
+    description: "09 Days - Indonesia"
+  },
+  {
+    title: " Australia",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/09 Days Australia.pdf",
+    description: "09 Days - Australia"
+  },
+  {
+    title: " Eastern Europe: Austria & Czech Republic",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/09 Days-Eastern Europe-Austia & Czech Republic.pdf",
+    description: "09 Days - Eastern Europe: Austria & Czech Republic"
+  },
+  {
+    title: " Europe: Switzerland & France",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/10 Days-Europe-Switzerland & France.pdf",
+    description: "10 Days - Europe: Switzerland & France"
+  },
+  {
+    title: " Norway",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/12 Days Norway.pdf",
+    description: "12 Days - Norway"
+  },
+  {
+    title: "Spain",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/12 Days-Spain.pdf",
+    description: "12 Days - Spain"
+  },
+  {
+    title: "Western Europe: France, Netherlands, Germany, Switzerland",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/12 Days-Western Europe-France-Netherlands-Germany-Switzerland.pdf",
+    description: "12 Days - Western Europe: France, Netherlands, Germany, Switzerland"
+  },
+  {
+    title: "Europe: Italy, Greece, Netherlands",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/13 Days- Europe- Italy-Greece-Netherlands.pdf",
+    description: "13 Days - Europe: Italy, Greece, Netherlands"
+  },
+  {
+    title: "Europe: Spain, Portugal",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/13 Days-Europe-Spain-Portugal.pdf",
+    description: "13 Days - Europe: Spain, Portugal"
+  },
+  {
+    title: "UK & Ireland",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/12 Days UK & Ireland.pdf",
+    description: "12 Days - UK & Ireland"
+  },
+  {
+    title: "Europe: Czech Republic, Germany",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/14 Days-Europe-Czech Republic-Germany-Switzerland.pdf",
+    description: "14 Days - Europe: Czech Republic, Germany"
+  },
+  {
+    title: "Europe: Switzerland & France",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/14 Days-Europe-Switzerland & France.pdf",
+    description: "14 Days - Europe: Switzerland & France"
+  },
+  {
+    title: "Greece & Italy",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/15 Days Greece & Italy.pdf",
+    description: "15 Days - Greece & Italy"
+  },
+  {
+    title: "Europe: Italy, Switzerland, France",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/15 Days-Europe-Italy-Switzerland-France.pdf",
+    description: "15 Days - Europe: Italy, Switzerland, France"
+  },
+  {
+    title: "UK, France, Switzerland, Italy",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/17 Days-UK-France-Switzerland-Italy.pdf",
+    description: "17 Days - UK, France, Switzerland, Italy"
+  },
+   {
+    title: "Spain, Portugal, Italy",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/16 Days-Spain-Portugal-Italy.pdf",
+    description: "16 Days - Spain, Portugal, Italy"
+  },
+  {
+    title: "Italy, Czech, Netherland, France, UK",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/18 Days-Italy-Czech-Netherland-France-UK.pdf",
+    description: "18 Days - Italy, Czech, Netherland, France, UK"
+  },
+  {
+    title: "South East Europe-Hungary-Croatia-Albania-Serbia-Bulgaria",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/22 Days-South East Europe-Hungary-Croatia-Albania-Serbia-Bulgaria.pdf",
+    description: "22 Days - South East Europe: Hungary, Croatia, Albania"
+  },
+  {
+    title: "Eastern and South East Europe-Hungary-Czech Republic-Serbia-Croatia-Albania-Turkey",
+    image: "/assets/img/destination/australia-2.jpg",
+    pdf: "/assets/pdf/26 Days-Eastern and South East Europe-Hungary-Czech Republic-Serbia-Croatia-Albania-Turkey.pdf",
+    description: "26 Days - Eastern and South East Europe: Hungary, Czech Republic"
+  }
+
   ];
   
  
