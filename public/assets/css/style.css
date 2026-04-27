@@ -4973,10 +4973,16 @@ ol.comment-list li .children li {
 }
 .card{
     min-height: 171px;
-    background: #0F2454 !important;
-    color: #fff !important;
+    background: #fcfcfc !important;
+    color: #010101 !important;
     transition: all 0.5s ease-in-out;
 }
+
+.admin-main .card{
+     background: #ededed !important;
+     color: #000 !important;
+}
+
 .card:hover{
     background: rgb(255, 255, 255) !important;
     border: rgb(32 149 174) 1px solid !important;
@@ -4997,11 +5003,14 @@ ol.comment-list li .children li {
     width: 40px;
 }
 .card p{
-    color: #fff;
+    color: #1f1f1f;
     
 }
-.service .card p{
+.provide-world__card p{
     color: #fff;
+}
+.service .card p{
+    color: #000000;
     font-size: 18px;
     font-weight: 500;
 
@@ -5010,22 +5019,34 @@ ol.comment-list li .children li {
 .card:hover p{
     color: #000 !important;
 }
+.provide-world__card:hover p{
+    color: #000 !important;
+}
 
 
 
-.Rail .card{
+.Rail .provide-world__card{
+    min-height: 63px !important;
+    background: #0F2454 !important;
+    color: #fff !important;
+    transition: all 0.5s ease-in-out;
+    border-radius: 8px;
+}
+.transfer .provide-world__card{
     min-height: 50px !important;
     background: #0F2454 !important;
     color: #fff !important;
     transition: all 0.5s ease-in-out;
+    border-radius: 8px;
 }
 
-.Rail .card:hover{
+.Rail .provide-world__card:hover{
     background: rgb(255, 255, 255) !important;
     border: rgb(32 149 174) 1px solid !important;
     color: #000 !important;
-    transform: scale(20px);
 }
+
+
 .img-20 img{
     width: 20px !important;
     filter: invert(0.2);

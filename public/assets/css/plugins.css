@@ -25,3 +25,4 @@
 /* == for booking css == */
 @import url("plugins/select2.css");
 @import url("plugins/datepicker.css");
+@import "tailwindcss";

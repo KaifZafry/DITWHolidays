@@ -259,6 +259,7 @@ const destinations = [
   },
   {
     title: "South East Europe-Hungary-Croatia-Albania-Serbia-Bulgaria",
+    
     image: "/assets/img/destination/Hungary.jpg",
     pdf: "/assets/pdf/22 Days-South East Europe-Hungary-Croatia-Albania-Serbia-Bulgaria.pdf",
     description: "22 Days - South East Europe: Hungary, Croatia, Albania"
@@ -268,7 +269,74 @@ const destinations = [
     image: "/assets/img/destination/serbia.jpg",
     pdf: "/assets/pdf/26 Days-Eastern and South East Europe-Hungary-Czech Republic-Serbia-Croatia-Albania-Turkey.pdf",
     description: "26 Days - Eastern and South East Europe: Hungary, Czech Republic"
-  }
+  },
+    {
+    title: "Japan",
+    image: "/assets/img/destination/japan-1.png",
+    pdf: "/assets/pdf/07 Days-Japan.pdf",
+    description: "7 Days - Japan Tour"
+  },
+  {
+    title: " Norway",
+    image: "/assets/img/destination/japan-2.png",
+    pdf: "/assets/pdf/09 Days Norway.pdf",
+    description: "9 Days - Norway Tour"
+  },
+  {
+    title: " Spain",
+    image: "/assets/img/destination/spain-3.png",
+    pdf: "/assets/pdf/09 Days-Spain.pdf",
+    description: "9 Days - Spain Tour"
+  },
+  {
+    title: " Italy & Switzerland",
+    image: "/assets/img/destination/italy-4.png",
+    pdf: "/assets/pdf/10 Days-Italy & Switzerland.pdf",
+    description: "10 Days - Italy & Switzerland Tour"
+  },
+  {
+    title: " Switzerland & Paris",
+    image: "/assets/img/destination/switzerland-6.png",
+    pdf: "/assets/pdf/10 Days-Switzerland & Paris.pdf",
+    description: "10 Days - Switzerland & Paris Tour"
+  },
+  {
+    title: " Switzerland & Italy",
+    image: "/assets/img/destination/italy-5.png",
+    pdf: "/assets/pdf/11 Days- Switzerland & Italy.pdf",
+    description: "11 Days - Switzerland & Italy Tour"
+  },
+  {
+    title: " Czech Republic & Italy",
+    image: "/assets/img/destination/czech-2.png",
+    pdf: "/assets/pdf/11 Days-Czech Republic & Italy.pdf",
+    description: "11 Days - Czech Republic & Italy Tour"
+  },
+  {
+    title: " Japan",
+    image: "/assets/img/destination/japan-2.png",
+    pdf: "/assets/pdf/11 Days-Japan.pdf",
+    description: "11 Days - Japan Tour"
+  },
+  {
+    title: " Switzerland & Italy",
+    image: "/assets/img/destination/Switzerland-2.jpg",
+    pdf: "/assets/pdf/13 Days-Switzerland & Italy.pdf",
+    description: "13 Days - Switzerland & Italy Tour"
+  },
+  {
+    title: " Italy & Switzerland",
+    image: "/assets/img/destination/italy1.jpg",
+    pdf: "/assets/pdf/14 Days-Italy & Switzerland.pdf",
+    description: "14 Days - Italy & Switzerland Tour"
+  },
+  {
+    title: " Czech Republic, Austria, Croatia, Hungary, Turkey",
+    image: "/assets/img/destination/austria.png",
+    pdf: "/assets/pdf/19 Days-Czech Republic-Austria-Croatia-Hungary-Turkey.pdf",
+    description: "19 Days-Czech Republic-Austria-Croatia-Hungary-Turkey Tour"
+  },
+
 
   ];
   

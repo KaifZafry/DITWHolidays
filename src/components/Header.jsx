@@ -25,8 +25,8 @@ const Header = () => {
           ))}
         </nav>
         <div className="d-flex align-items-center">
-          <Link to="/contact" className="btn btn-primary d-none d-md-inline-block me-2">
-            Get a Quote
+          <Link to="/admin" className="btn btn-primary d-none d-md-inline-block me-2">
+            Admin
           </Link>
           <button className="navbar-toggler d-md-none" type="button" onClick={toggleMenu}>
             <span className="navbar-toggler-icon"><img src="/assets/img/icons/hamburger.png" alt="" /></span>

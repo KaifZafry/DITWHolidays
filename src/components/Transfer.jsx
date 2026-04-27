@@ -21,9 +21,9 @@ const Transfer = () => {
         <div className="container">
           <div className="row justify-content-center">
             {Object.keys(countryData).map((country) => (
-              <div key={country} className="col-md-2 col-6">
+              <div key={country} className="col-md-2 col-6 transfer">
                 <div
-                  className="card provide-world__card nb3-bg px-3 mb-3 text-center cus-rounded-1 pt-2"
+                  className=" provide-world__card nb3-bg px-3 mb-3 text-center cus-rounded-1 pt-2"
                   onClick={() => setSelectedCountry(country)}
                   style={{ cursor: "pointer" }}
                 >
