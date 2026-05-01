@@ -1,5 +1,46 @@
 import mongoose from 'mongoose';
+import { Readable } from 'stream';
+import cloudinary, { ensureCloudinaryConfig } from '../config/cloudinary.js';
 import Package from '../models/Package.js';
+
+function uploadBufferToCloudinary(fileBuffer) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'ditw-holidays/packages',
+        resource_type: 'image',
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        return resolve(result);
+      },
+    );
+
+    Readable.from(fileBuffer).pipe(stream);
+  });
+}
+
+export async function uploadPackageImage(req, res, next) {
+  try {
+    ensureCloudinaryConfig();
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Package image is required' });
+    }
+
+    const uploaded = await uploadBufferToCloudinary(req.file.buffer);
+    return res.status(201).json({
+      success: true,
+      message: 'Package image uploaded successfully',
+      data: {
+        imageUrl: uploaded.secure_url,
+        imagePublicId: uploaded.public_id,
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+}
 
 export async function createPackage(req, res, next) {
   try {

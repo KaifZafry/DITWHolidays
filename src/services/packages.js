@@ -23,6 +23,13 @@ export async function createPackage(payload) {
   return unwrap(res);
 }
 
+export async function uploadPackageImage(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+  const res = await api.postForm('/api/packages/upload-image', formData);
+  return unwrap(res);
+}
+
 export async function updatePackage(id, payload) {
   const res = await api.put(`/api/packages/${id}`, payload);
   return unwrap(res);

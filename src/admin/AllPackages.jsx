@@ -57,7 +57,7 @@ export default function AllPackages() {
         </div>
       )}
 
-      <div className="card shadow-sm">
+      <div className="card shadow-sm" style={{minHeight:'70px'}}>
         <div className="card-body">
           <div className="row g-2 align-items-center">
             <div className="col-12 col-lg-6">

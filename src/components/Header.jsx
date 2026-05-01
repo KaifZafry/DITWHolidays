@@ -11,7 +11,7 @@ const Header = () => {
     <header className="position-fixed top-0 left-0 w-100 shadow-sm" style={{ background: '#000000ad', zIndex: '100' }}>
       <div className="container d-flex align-items-center justify-content-between py-3">
         <Link to="/" className="d-flex align-items-center">
-          <img src="assets/img/logo-light.png" alt="logo" className="logo foot-logo" style={{ width: '120px' }} />
+          <img src="/assets/img/logo-light.png" alt="logo" className="logo foot-logo" style={{ width: '120px' }} />
         </Link>
         <nav className="d-none d-md-flex">
           {['/', '/about', '/services', '/package', '/rail', '/transfer', '/contact'].map((path) => (

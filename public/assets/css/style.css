@@ -5079,3 +5079,6 @@ ol.comment-list li .children li {
 .foot-logo{
     filter: invert(1);
 }
+.btn-sm{
+        white-space: nowrap;
+}

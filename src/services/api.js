@@ -29,9 +29,38 @@ async function request(path, { method = 'GET', body, headers } = {}) {
   return res.text();
 }
 
+async function requestForm(path, formData, { method = 'POST', headers } = {}) {
+  const res = await fetch(`${API_BASE_URL}${path}`, {
+    method,
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      ...(headers ?? {}),
+    },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const contentType = res.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await res.json().catch(() => null);
+      const message = data?.message || data?.error || JSON.stringify(data);
+      throw new Error(`API error ${res.status}: ${message || res.statusText}`);
+    }
+
+    const text = await res.text().catch(() => '');
+    throw new Error(`API error ${res.status}: ${text || res.statusText}`);
+  }
+
+  const contentType = res.headers.get('content-type') || '';
+  if (contentType.includes('application/json')) return res.json();
+  return res.text();
+}
+
 export const api = {
   get: (path) => request(path, { method: 'GET' }),
   post: (path, body) => request(path, { method: 'POST', body }),
+  postForm: (path, formData) => requestForm(path, formData, { method: 'POST' }),
   put: (path, body) => request(path, { method: 'PUT', body }),
   del: (path) => request(path, { method: 'DELETE' }),
 };

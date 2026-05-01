@@ -43,6 +43,7 @@ export default function Packages() {
 
   const hasAdminPackages = packages.length > 0;
   const brochureDestinations = useMemo(() => (Array.isArray(destinations) ? destinations : []), []);
+  const fallbackPackageImage = brochureDestinations[0]?.image || '/assets/img/bg-1.jpg';
 
   return (
     <>
@@ -64,12 +65,10 @@ export default function Packages() {
           <div className="row mb-4">
             <div className="col-12 d-flex flex-wrap align-items-end justify-content-between gap-2">
               <div>
-                <h2 className="mb-1">Packages from Admin</h2>
-                <div className="text-secondary">These packages are managed from `/admin` and served from the backend API.</div>
+                <h2 className="mb-1">Packages</h2>
+               
               </div>
-              <Link to="/admin" className="btn btn-outline-primary">
-                Go to Admin
-              </Link>
+             
             </div>
           </div>
 
@@ -94,31 +93,21 @@ export default function Packages() {
           )}
 
           {!loading && !error && hasAdminPackages && (
-            <div className="row g-3">
+            <div className='destination1'>
+ <div className="row">
               {packages.map((p) => (
-                <div key={p.id} className="col-12 col-md-6 col-xl-4">
-                  <div className="card shadow-sm h-100">
-                    <div className="card-body d-flex flex-column">
-                      <div className="fw-semibold fs-5 mb-1">{p.title}</div>
-                      <div className="text-secondary mb-3">{p.destination}</div>
-                      <div className="d-flex flex-wrap gap-2 mb-3">
-                        <span className="badge text-bg-light">{p.duration} days</span>
-                        <span className="badge text-bg-light">Base: {formatMoney(p.basePrice)}</span>
-                        <span className="badge text-bg-light">{(p.activities?.length ?? 0)} activities</span>
-                      </div>
-                      <div className="mt-auto d-flex gap-2">
-                        <Link to={`/package/${p.id}`} className="btn btn-sm btn-primary">
-                          View Details
-                        </Link>
-                        <Link to={`/admin/edit/${p.id}`} className="btn btn-sm btn-outline-secondary">
-                          Edit (Admin)
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <DestinationCard
+                  key={p.id}
+                  title={p.title}
+                  image={p.imageUrl || fallbackPackageImage}
+                  link={`/package/${p.id}`}
+                  actionLabel="View Details"
+                  description={`${p.destination} | ${p.duration} days | From ${formatMoney(p.basePrice)}`}
+                />
               ))}
             </div>
+            </div>
+           
           )}
         </div>
       </section>

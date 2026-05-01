@@ -1,11 +1,25 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useMemo, useState } from 'react';
+import { uploadPackageImage } from '../services/packages';
 
 const DEFAULT_PACKAGE = {
   title: '',
   destination: '',
+  imageUrl: '',
+  imagePublicId: '',
+  travelDates: '',
+  pax: '',
   duration: '',
   basePrice: '',
+  doubleSharingPrice: '',
+  singleSharingPrice: '',
+  childWithBedPrice: '',
+  childWithoutBedPrice: '',
+  infantPrice: '',
+  mealPlan: '',
+  flightDetails: '',
+  visaDetails: '',
+  importantNotes: '',
   hotels: [{ name: '', stars: 4, priceDiff: 0 }],
   activities: [{ name: '', price: 0, optional: false }],
   itinerary: [{ day: 1, title: '', description: '' }],
@@ -44,6 +58,8 @@ export default function PackageForm({
   const [errors, setErrors] = useState({});
   const [newInclusion, setNewInclusion] = useState('');
   const [newExclusion, setNewExclusion] = useState('');
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState('');
 
   useEffect(() => {
     setForm(initial);
@@ -69,8 +85,21 @@ export default function PackageForm({
 
     const payload = {
       ...form,
+      imageUrl: String(form.imageUrl ?? '').trim(),
+      imagePublicId: String(form.imagePublicId ?? '').trim(),
+      travelDates: String(form.travelDates ?? '').trim(),
+      pax: String(form.pax ?? '').trim(),
       duration: toNumber(form.duration, 0),
       basePrice: toNumber(form.basePrice, 0),
+      doubleSharingPrice: toNumber(form.doubleSharingPrice, 0),
+      singleSharingPrice: toNumber(form.singleSharingPrice, 0),
+      childWithBedPrice: toNumber(form.childWithBedPrice, 0),
+      childWithoutBedPrice: toNumber(form.childWithoutBedPrice, 0),
+      infantPrice: toNumber(form.infantPrice, 0),
+      mealPlan: String(form.mealPlan ?? '').trim(),
+      flightDetails: String(form.flightDetails ?? '').trim(),
+      visaDetails: String(form.visaDetails ?? '').trim(),
+      importantNotes: String(form.importantNotes ?? '').trim(),
       hotels: (form.hotels ?? [])
         .map((h) => ({
           name: String(h.name ?? '').trim(),
@@ -102,6 +131,27 @@ export default function PackageForm({
     };
 
     onSubmit?.(payload);
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImageUploading(true);
+    setImageUploadError('');
+    try {
+      const uploaded = await uploadPackageImage(file);
+      setForm((prev) => ({
+        ...prev,
+        imageUrl: uploaded?.imageUrl ?? '',
+        imagePublicId: uploaded?.imagePublicId ?? '',
+      }));
+    } catch (err) {
+      setImageUploadError(err?.message || 'Failed to upload package image');
+    } finally {
+      setImageUploading(false);
+      e.target.value = '';
+    }
   };
 
   const addInclusion = () => {
@@ -146,6 +196,40 @@ export default function PackageForm({
               />
               {errors.destination && <div className="invalid-feedback">{errors.destination}</div>}
             </div>
+            <div className="col-12 col-lg-6">
+              <label className="form-label">Package Card Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="form-control"
+                onChange={handleImageChange}
+                disabled={imageUploading}
+              />
+              <div className="form-text">
+                {imageUploading ? 'Uploading image...' : 'Upload a card image to Cloudinary.'}
+              </div>
+              {imageUploadError && <div className="text-danger small mt-1">{imageUploadError}</div>}
+            </div>
+            <div className="col-12 col-lg-6">
+              <label className="form-label">Image URL</label>
+              <input
+                className="form-control"
+                value={form.imageUrl ?? ''}
+                onChange={(e) => setField('imageUrl', e.target.value)}
+                placeholder="Cloudinary URL appears here after upload"
+              />
+            </div>
+            {form.imageUrl ? (
+              <div className="col-12">
+                <div className="border rounded-3 p-2 d-inline-block">
+                  <img
+                    src={form.imageUrl}
+                    alt="Package preview"
+                    style={{ width: 220, height: 140, objectFit: 'cover', borderRadius: 6 }}
+                  />
+                </div>
+              </div>
+            ) : null}
             <div className="col-12 col-lg-3">
               <label className="form-label">Duration (days) *</label>
               <input
@@ -158,6 +242,24 @@ export default function PackageForm({
               {errors.duration && <div className="invalid-feedback">{errors.duration}</div>}
             </div>
             <div className="col-12 col-lg-3">
+              <label className="form-label">Travel Dates</label>
+              <input
+                className="form-control"
+                value={form.travelDates ?? ''}
+                onChange={(e) => setField('travelDates', e.target.value)}
+                placeholder="e.g., 19 Jun - 24 Jun"
+              />
+            </div>
+            <div className="col-12 col-lg-3">
+              <label className="form-label">Pax</label>
+              <input
+                className="form-control"
+                value={form.pax ?? ''}
+                onChange={(e) => setField('pax', e.target.value)}
+                placeholder="e.g., 04 Pax"
+              />
+            </div>
+            <div className="col-12 col-lg-3">
               <label className="form-label">Base Price *</label>
               <input
                 type="number"
@@ -167,6 +269,56 @@ export default function PackageForm({
                 onChange={(e) => setField('basePrice', e.target.value)}
               />
               {errors.basePrice && <div className="invalid-feedback">{errors.basePrice}</div>}
+            </div>
+            <div className="col-12 col-lg-3">
+              <label className="form-label">Double Sharing Price</label>
+              <input
+                type="number"
+                min="0"
+                className="form-control"
+                value={form.doubleSharingPrice ?? ''}
+                onChange={(e) => setField('doubleSharingPrice', e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-lg-3">
+              <label className="form-label">Single Sharing Price</label>
+              <input
+                type="number"
+                min="0"
+                className="form-control"
+                value={form.singleSharingPrice ?? ''}
+                onChange={(e) => setField('singleSharingPrice', e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-lg-3">
+              <label className="form-label">Child With Bed</label>
+              <input
+                type="number"
+                min="0"
+                className="form-control"
+                value={form.childWithBedPrice ?? ''}
+                onChange={(e) => setField('childWithBedPrice', e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-lg-3">
+              <label className="form-label">Child Without Bed</label>
+              <input
+                type="number"
+                min="0"
+                className="form-control"
+                value={form.childWithoutBedPrice ?? ''}
+                onChange={(e) => setField('childWithoutBedPrice', e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-lg-3">
+              <label className="form-label">Infant Price</label>
+              <input
+                type="number"
+                min="0"
+                className="form-control"
+                value={form.infantPrice ?? ''}
+                onChange={(e) => setField('infantPrice', e.target.value)}
+              />
             </div>
             <div className="col-12 col-lg-6">
               <label className="form-label">Transfers</label>
@@ -193,6 +345,46 @@ export default function PackageForm({
                 </div>
               </div>
               <div className="form-text">Transfers price will be added on top of base price later via dynamic pricing rules.</div>
+            </div>
+            <div className="col-12 col-lg-6">
+              <label className="form-label">Meal Plan</label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={form.mealPlan ?? ''}
+                onChange={(e) => setField('mealPlan', e.target.value)}
+                placeholder="e.g., Daily breakfast, 4 lunches, 5 dinners"
+              />
+            </div>
+            <div className="col-12 col-lg-6">
+              <label className="form-label">Flight Details</label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={form.flightDetails ?? ''}
+                onChange={(e) => setField('flightDetails', e.target.value)}
+                placeholder="Airline, sectors, timings, baggage..."
+              />
+            </div>
+            <div className="col-12 col-lg-6">
+              <label className="form-label">Visa Details</label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={form.visaDetails ?? ''}
+                onChange={(e) => setField('visaDetails', e.target.value)}
+                placeholder="Visa included / documents / processing notes..."
+              />
+            </div>
+            <div className="col-12 col-lg-6">
+              <label className="form-label">Important Notes</label>
+              <textarea
+                className="form-control"
+                rows="3"
+                value={form.importantNotes ?? ''}
+                onChange={(e) => setField('importantNotes', e.target.value)}
+                placeholder="Any remarks from the quote PDF..."
+              />
             </div>
           </div>
         </div>
@@ -527,8 +719,8 @@ export default function PackageForm({
       </div>
 
       <div className="d-flex justify-content-end gap-2">
-        <button type="submit" className="btn btn-primary" disabled={busy}>
-          {busy ? 'Saving...' : submitLabel}
+        <button type="submit" className="btn btn-primary" disabled={busy || imageUploading}>
+          {busy ? 'Saving...' : imageUploading ? 'Uploading...' : submitLabel}
         </button>
       </div>
     </form>

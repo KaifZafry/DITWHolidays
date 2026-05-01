@@ -1,13 +1,57 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getPackage } from '../services/packages';
 
+const TERMS = [
+  'Rates are subject to availability at the time of confirmation.',
+  'Airfare, hotel rooms, visas, and sightseeing slots are not blocked unless the booking is confirmed.',
+  'Any increase in taxes, fuel surcharge, visa fee, entrance fee, or currency fluctuation will be charged extra.',
+  'Early check-in, late check-out, room upgrades, and adjoining rooms are subject to hotel availability.',
+  'The itinerary can be changed due to weather, traffic, local restrictions, operational reasons, or force majeure.',
+  'No refund will be provided for unused services once the tour has started.',
+  'Passport validity, visa approval, and immigration clearance are the responsibility of the traveller.',
+  'Final vouchers and service confirmations will be shared after receipt of full payment.',
+];
+
 function formatMoney(value) {
+  const n = Number(value ?? 0);
+  if (!Number.isFinite(n) || n <= 0) return 'On request';
+
   try {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(value ?? 0);
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
   } catch {
-    return `₹${value ?? 0}`;
+    return `Rs. ${n}`;
   }
+}
+
+function hasValue(value) {
+  return String(value ?? '').trim().length > 0;
+}
+
+function MultilineText({ value, empty = 'Not specified.' }) {
+  const lines = String(value ?? '')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (!lines.length) return <div className="text-secondary">{empty}</div>;
+
+  return (
+    <div className="package-detail-lines">
+      {lines.map((line, index) => (
+        <p key={index}>{line}</p>
+      ))}
+    </div>
+  );
+}
+
+function DetailPanel({ title, children, className = '' }) {
+  return (
+    <section className={`package-detail-panel ${className}`}>
+      <div className="package-detail-panel-title">{title}</div>
+      {children}
+    </section>
+  );
 }
 
 export default function PackageDetails() {
@@ -39,6 +83,20 @@ export default function PackageDetails() {
       active = false;
     };
   }, [id]);
+
+  const pricingRows = useMemo(() => {
+    if (!pkg) return [];
+
+    return [
+      ['Base Price', pkg.basePrice],
+      ['Double Sharing Price', pkg.doubleSharingPrice],
+      ['Single Sharing Price', pkg.singleSharingPrice],
+      ['Child With Bed', pkg.childWithBedPrice],
+      ['Child Without Bed', pkg.childWithoutBedPrice],
+      ['Infant Price', pkg.infantPrice],
+      [`Transfers${pkg.transfers?.type ? ` (${pkg.transfers.type})` : ''}`, pkg.transfers?.price],
+    ];
+  }, [pkg]);
 
   if (loading) {
     return (
@@ -74,148 +132,167 @@ export default function PackageDetails() {
 
   return (
     <>
-     <div className="banner-header section-padding valign bg-img bg-fixed back-position-center" data-overlay-dark="6" >
+      <div className="package-detail-hero">
+        {pkg.imageUrl ? <img src={pkg.imageUrl} alt={pkg.title} /> : null}
+        <div className="package-detail-hero-overlay" />
+        <div className="container package-detail-hero-content">
+          
+          <div className="package-detail-kicker">{pkg.destination}</div>
+          <h1>{pkg.title}</h1>
+          <div className="package-detail-hero-meta">
+            <span>{pkg.duration} days</span>
+            <span>{hasValue(pkg.travelDates) ? pkg.travelDates : 'Flexible dates'}</span>
+            <span>{hasValue(pkg.pax) ? pkg.pax : 'Custom pax'}</span>
+          </div>
+        </div>
+      </div>
+
+      <main className="package-detail-page">
         <div className="container">
-          <div className="row">
-            <div className="col-md-12 caption mt-90">
-              <h5>Explore in {pkg.destination}</h5>
-              <h1>Package <span>Details</span></h1>
+          <div className="package-detail-summary">
+            <div>
+              <span>Destination</span>
+              <strong>{pkg.destination}</strong>
+            </div>
+            <div>
+              <span>Duration</span>
+              <strong>{pkg.duration} Days</strong>
+            </div>
+            <div>
+              <span>Travel Dates</span>
+              <strong>{hasValue(pkg.travelDates) ? pkg.travelDates : 'On request'}</strong>
+            </div>
+            <div>
+              <span>Meal Plan</span>
+              <strong>{hasValue(pkg.mealPlan) ? 'Included' : 'On request'}</strong>
             </div>
           </div>
-        </div>
-      </div>
 
-          <div className="container py-5">
-      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
-        <div>
-          <div className="text-secondary">Package</div>
-          <h1 className="h3 mb-1">{pkg.title}</h1>
-          <div className="text-secondary">{pkg.destination}</div>
-        </div>
-        <div className="d-flex gap-2">
-         
-          <button type="button" className="btn btn-primary" onClick={() => navigate('/package')}>
-            Back
-          </button>
-        </div>
-      </div>
+          <div className="row g-4 align-items-start">
+            <div className="col-12 col-xl-8">
+              <DetailPanel title="Day Wise Itinerary" className="package-detail-itinerary">
+                {(pkg.itinerary?.length ?? 0) === 0 && <div className="text-secondary">No itinerary added.</div>}
+                {(pkg.itinerary ?? []).map((day, index) => (
+                  <div key={index} className="package-detail-day">
+                    <div className="package-detail-day-number">Day {day.day}</div>
+                    <div>
+                      <h3>{day.title}</h3>
+                      <p>{day.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </DetailPanel>
 
-      <div className="row g-3 mb-4">
-        <div className="col-12 col-md-4">
-          <div className="card shadow-sm h-100">
-            <div className="card-body">
-              <div className="text-secondary small">Duration</div>
-              <div className="fs-5 fw-semibold">{pkg.duration} days</div>
+              <div className="row g-4">
+                <div className="col-12 col-lg-6">
+                  <DetailPanel title="Hotels">
+                    {(pkg.hotels?.length ?? 0) === 0 && <div className="text-secondary">No hotels added.</div>}
+                    {(pkg.hotels ?? []).map((hotel, index) => (
+                      <div key={index} className="package-detail-list-row">
+                        <div>
+                          <strong>{hotel.name}</strong>
+                          <span>{hotel.stars} star hotel</span>
+                        </div>
+                        <b>{formatMoney(hotel.priceDiff)}</b>
+                      </div>
+                    ))}
+                  </DetailPanel>
+                </div>
+
+                <div className="col-12 col-lg-6">
+                  <DetailPanel title="Meals">
+                    <MultilineText value={pkg.mealPlan} empty="Meal details will be confirmed with the final quote." />
+                  </DetailPanel>
+                </div>
+              </div>
+
+              <div className="row g-4">
+                <div className="col-12 col-lg-6">
+                  <DetailPanel title="Flights">
+                    <MultilineText value={pkg.flightDetails} empty="Flight details are not added yet." />
+                  </DetailPanel>
+                </div>
+                <div className="col-12 col-lg-6">
+                  <DetailPanel title="Visa">
+                    <MultilineText value={pkg.visaDetails} empty="Visa details are not added yet." />
+                  </DetailPanel>
+                </div>
+              </div>
+
+              <DetailPanel title="Activities & Sightseeing">
+                {(pkg.activities?.length ?? 0) === 0 && <div className="text-secondary">No activities added.</div>}
+                <div className="package-detail-chip-grid">
+                  {(pkg.activities ?? []).map((activity, index) => (
+                    <div key={index} className="package-detail-chip">
+                      <strong>{activity.name}</strong>
+                      <span>
+                        {activity.optional ? 'Optional' : 'Included'} | {formatMoney(activity.price)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </DetailPanel>
+
+              
             </div>
-          </div>
-        </div>
-        <div className="col-12 col-md-4">
-          <div className="card shadow-sm h-100">
-            <div className="card-body">
-              <div className="text-secondary small">Base Price</div>
-              <div className="fs-5 fw-semibold">{formatMoney(pkg.basePrice)}</div>
-            </div>
-          </div>
-        </div>
-        <div className="col-12 col-md-4">
-          <div className="card shadow-sm h-100">
-            <div className="card-body">
-              <div className="text-secondary small">Transfers</div>
-              <div className="fs-6 fw-semibold">
-                {pkg.transfers?.type ? `${pkg.transfers.type} • ${formatMoney(pkg.transfers.price)}` : '—'}
+
+            <div className="col-12 col-xl-4">
+              <div className="package-detail-sticky">
+                <DetailPanel title="Price Details">
+                  <div className="package-detail-price-table">
+                    {pricingRows.map(([label, value]) => (
+                      <div key={label}>
+                        <span>{label}</span>
+                        <strong>{formatMoney(value)}</strong>
+                      </div>
+                    ))}
+                  </div>
+                </DetailPanel>
+
+                <DetailPanel title="Transfers">
+                  <div className="package-detail-transfer">
+                    <span>{pkg.transfers?.type || 'Private'}</span>
+                    <strong>{formatMoney(pkg.transfers?.price)}</strong>
+                  </div>
+                </DetailPanel>
+
+                <DetailPanel title="Important Notes">
+                  <MultilineText value={pkg.importantNotes} empty="No special notes added." />
+                </DetailPanel>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="row g-3">
-        <div className="col-12 col-lg-6">
-          <div className="card shadow-sm h-100">
-            <div className="card-header bg-white fw-semibold">Hotels</div>
-            <div className="card-body">
-              {(pkg.hotels?.length ?? 0) === 0 && <div className="text-secondary">No hotels added.</div>}
-              {(pkg.hotels ?? []).map((h, idx) => (
-                <div key={idx} className="d-flex align-items-start justify-content-between border-bottom py-2">
-                  <div>
-                    <div className="fw-semibold">{h.name}</div>
-                    <div className="text-secondary small">{h.stars} star</div>
-                  </div>
-                  <div className="small text-secondary">{formatMoney(h.priceDiff)}</div>
+                    <div className="row g-4">
+                <div className="col-12 col-lg-6">
+                  <DetailPanel title="Inclusions">
+                    {(pkg.inclusions?.length ?? 0) === 0 && <div className="text-secondary">No inclusions added.</div>}
+                    <ul className="package-detail-check-list">
+                      {(pkg.inclusions ?? []).map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </DetailPanel>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="col-12 col-lg-6">
-          <div className="card shadow-sm h-100">
-            <div className="card-header bg-white fw-semibold">Activities</div>
-            <div className="card-body">
-              {(pkg.activities?.length ?? 0) === 0 && <div className="text-secondary">No activities added.</div>}
-              {(pkg.activities ?? []).map((a, idx) => (
-                <div key={idx} className="d-flex align-items-start justify-content-between border-bottom py-2">
-                  <div>
-                    <div className="fw-semibold">
-                      {a.name}{' '}
-                      {a.optional ? <span className="badge text-bg-light ms-2">Optional</span> : null}
-                    </div>
-                  </div>
-                  <div className="small text-secondary">{formatMoney(a.price)}</div>
+                <div className="col-12 col-lg-6">
+                  <DetailPanel title="Exclusions">
+                    {(pkg.exclusions?.length ?? 0) === 0 && <div className="text-secondary">No exclusions added.</div>}
+                    <ul className="package-detail-cross-list">
+                      {(pkg.exclusions ?? []).map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </DetailPanel>
                 </div>
+              </div>
+          <DetailPanel title="Terms & Conditions" className="package-detail-terms">
+            <ul>
+              {TERMS.map((term, index) => (
+                <li key={index}>{term}</li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </DetailPanel>
         </div>
-
-        <div className="col-12">
-          <div className="card shadow-sm">
-            <div className="card-header bg-white fw-semibold">Itinerary</div>
-            <div className="card-body">
-              {(pkg.itinerary?.length ?? 0) === 0 && <div className="text-secondary">No itinerary added.</div>}
-              {(pkg.itinerary ?? []).map((d, idx) => (
-                <div key={idx} className="border-bottom py-3">
-                  <div className="fw-semibold mb-1">
-                    Day {d.day}: {d.title}
-                  </div>
-                  <div className="text-secondary">{d.description}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="col-12 col-lg-6">
-          <div className="card shadow-sm h-100">
-            <div className="card-header bg-white fw-semibold">Inclusions</div>
-            <div className="card-body">
-              {(pkg.inclusions?.length ?? 0) === 0 && <div className="text-secondary">No inclusions added.</div>}
-              <ul className="mb-0">
-                {(pkg.inclusions ?? []).map((x, idx) => (
-                  <li key={idx}>{x}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-12 col-lg-6">
-          <div className="card shadow-sm h-100">
-            <div className="card-header bg-white fw-semibold">Exclusions</div>
-            <div className="card-body">
-              {(pkg.exclusions?.length ?? 0) === 0 && <div className="text-secondary">No exclusions added.</div>}
-              <ul className="mb-0">
-                {(pkg.exclusions ?? []).map((x, idx) => (
-                  <li key={idx}>{x}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </main>
     </>
-
   );
 }
-
